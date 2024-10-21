@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 void main() {
   runApp(MyApp());
 }
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Column widget',
+      title: 'Stylish Widgets with Smooth Transition',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -15,12 +16,17 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 class WidgetNavigator extends StatefulWidget {
   @override
   _WidgetNavigatorState createState() => _WidgetNavigatorState();
 }
+
 class _WidgetNavigatorState extends State<WidgetNavigator> {
   final PageController _pageController = PageController();
+  int _currentPage = 0; // Sahifadagi hozirgi pozitsiyani kuzatish uchun o'zgaruvchi
+
+  // Sahifalar ro'yxati (widgetlar)
   final List<Widget> _pages = [
     Container(
       margin: EdgeInsets.all(15),
@@ -143,12 +149,14 @@ class _WidgetNavigatorState extends State<WidgetNavigator> {
       ),
     ),
   ];
+
   void _nextPage() {
     _pageController.nextPage(
       duration: Duration(milliseconds: 500), // Smooth and longer transition
       curve: Curves.easeInOutCubic,
     );
   }
+
   void _previousPage() {
     _pageController.previousPage(
       duration: Duration(milliseconds: 500), // Smooth and longer transition
@@ -159,35 +167,43 @@ class _WidgetNavigatorState extends State<WidgetNavigator> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Column widgets'),
+        title: Text('Stylish Widgets with Smooth Transition'),
       ),
       body: Stack(
         children: [
           PageView(
             controller: _pageController,
-            scrollDirection: Axis.vertical, // Vertikal o'tish yo'nalishi
+            scrollDirection: Axis.vertical,
+            onPageChanged: (int page) {
+              setState(() {
+                _currentPage = page;
+              });
+            },
             children: _pages,
           ),
-          Positioned(
-            top: 20,
-            left: MediaQuery.of(context).size.width * 0.5 - 30,
-            child: IconButton(
-              icon: Icon(Icons.arrow_upward, size: 40, color: Colors.black),
-              onPressed: _previousPage,
+          if (_currentPage != 0)
+            Positioned(
+              top: 20,
+              left: MediaQuery.of(context).size.width * 0.5 - 30,
+              child: IconButton(
+                icon: Icon(Icons.arrow_upward, size: 40, color: Colors.black),
+                onPressed: _previousPage,
+              ),
             ),
-          ),
-          Positioned(
-            bottom: 20,
-            left: MediaQuery.of(context).size.width * 0.5 - 30,
-            child: IconButton(
-              icon: Icon(Icons.arrow_downward, size: 40, color: Colors.black),
-              onPressed: _nextPage,
+          if (_currentPage != _pages.length - 1)
+            Positioned(
+              bottom: 20,
+              left: MediaQuery.of(context).size.width * 0.5 - 30,
+              child: IconButton(
+                icon: Icon(Icons.arrow_downward, size: 40, color: Colors.black),
+                onPressed: _nextPage,
+              ),
             ),
-          ),
         ],
       ),
     );
   }
+
   @override
   void dispose() {
     _pageController.dispose();
