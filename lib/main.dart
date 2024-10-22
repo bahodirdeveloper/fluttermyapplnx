@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
-
 void main() {
   runApp(MyApp());
 }
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Stylish Widgets with Smooth Transition',
+      title: 'Beautiful Widgets',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.purple,
+        fontFamily: 'Italic',
       ),
       home: WidgetNavigator(),
     );
   }
 }
-
 class WidgetNavigator extends StatefulWidget {
   @override
   _WidgetNavigatorState createState() => _WidgetNavigatorState();
@@ -24,139 +22,84 @@ class WidgetNavigator extends StatefulWidget {
 
 class _WidgetNavigatorState extends State<WidgetNavigator> {
   final PageController _pageController = PageController();
-  int _currentPage = 0; // Sahifadagi hozirgi pozitsiyani kuzatish uchun o'zgaruvchi
-
-  // Sahifalar ro'yxati (widgetlar)
+  int _currentPage = 0;
   final List<Widget> _pages = [
-    Container(
-      margin: EdgeInsets.all(15),
-      padding: EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.redAccent.shade100,
-        borderRadius: BorderRadius.circular(30),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 15,
-            offset: Offset(0, 8),
-          ),
-        ],
-      ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.home, size: 40, color: Colors.white),
-            SizedBox(height: 10),
-            Text(
-              'Birinchi widget',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                letterSpacing: 1.5,
-                shadows: [
-                  Shadow(
-                    blurRadius: 5,
-                    color: Colors.black45,
-                    offset: Offset(1, 1),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+    _buildStyledWidget(
+      icon: Icons.home,
+      title: 'Birinchi sahifa',
+      gradientColors: [Colors.pinkAccent, Colors.redAccent],
     ),
-    Container(
-      margin: EdgeInsets.all(15),
-      padding: EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.greenAccent.shade100,
-        borderRadius: BorderRadius.circular(30),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 15,
-            offset: Offset(0, 8),
-          ),
-        ],
-      ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.favorite, size: 40, color: Colors.white),
-            SizedBox(height: 10),
-            Text(
-              'Ikkinchi widget',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                letterSpacing: 1.5,
-                shadows: [
-                  Shadow(
-                    blurRadius: 5,
-                    color: Colors.black45,
-                    offset: Offset(1, 1),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+    _buildStyledWidget(
+      icon: Icons.favorite,
+      title: 'Ikkinchi sahifa',
+      gradientColors: [Colors.teal, Colors.greenAccent],
     ),
-    Container(
-      margin: EdgeInsets.all(15),
-      padding: EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.blueAccent.shade100,
-        borderRadius: BorderRadius.circular(30),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 15,
-            offset: Offset(0, 8),
-          ),
-        ],
-      ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.star, size: 40, color: Colors.white),
-            SizedBox(height: 10),
-            Text(
-              'Uchinchi widget',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                letterSpacing: 1.5,
-                shadows: [
-                  Shadow(
-                    blurRadius: 5,
-                    color: Colors.black45,
-                    offset: Offset(1, 1),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+    _buildStyledWidget(
+      icon: Icons.star,
+      title: 'Uchinchi sahifa',
+      gradientColors: [Colors.deepPurpleAccent, Colors.indigo],
     ),
   ];
-
+  static Widget _buildStyledWidget({
+    required IconData icon,
+    required String title,
+    required List<Color> gradientColors,
+  }) {
+    return Container(
+      margin: EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        gradient: LinearGradient(
+          colors: gradientColors,
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            blurRadius: 15,
+            offset: Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: 60,
+              color: Colors.white.withOpacity(0.9),
+            ),
+            SizedBox(height: 20),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                letterSpacing: 1.5,
+                shadows: [
+                  Shadow(
+                    blurRadius: 10,
+                    color: Colors.black.withOpacity(0.5),
+                    offset: Offset(2, 2),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
   void _nextPage() {
     _pageController.nextPage(
       duration: Duration(milliseconds: 500), // Smooth and longer transition
       curve: Curves.easeInOutCubic,
     );
   }
-
   void _previousPage() {
     _pageController.previousPage(
       duration: Duration(milliseconds: 500), // Smooth and longer transition
@@ -167,7 +110,7 @@ class _WidgetNavigatorState extends State<WidgetNavigator> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Stylish Widgets with Smooth Transition'),
+        title: Text('Beautiful Widgets'),
       ),
       body: Stack(
         children: [
@@ -186,7 +129,7 @@ class _WidgetNavigatorState extends State<WidgetNavigator> {
               top: 20,
               left: MediaQuery.of(context).size.width * 0.5 - 30,
               child: IconButton(
-                icon: Icon(Icons.arrow_upward, size: 40, color: Colors.black),
+                icon: Icon(Icons.arrow_upward, size: 40, color: Colors.purple),
                 onPressed: _previousPage,
               ),
             ),
@@ -195,7 +138,7 @@ class _WidgetNavigatorState extends State<WidgetNavigator> {
               bottom: 20,
               left: MediaQuery.of(context).size.width * 0.5 - 30,
               child: IconButton(
-                icon: Icon(Icons.arrow_downward, size: 40, color: Colors.black),
+                icon: Icon(Icons.arrow_downward, size: 40, color: Colors.purple),
                 onPressed: _nextPage,
               ),
             ),
@@ -203,7 +146,6 @@ class _WidgetNavigatorState extends State<WidgetNavigator> {
       ),
     );
   }
-
   @override
   void dispose() {
     _pageController.dispose();
